@@ -33,32 +33,27 @@ const CLASS_NAMES: Record<ClassGroup, string[]> = {
 };
 
 const SUNDAY_DINNER_ITEMS = [
-  '🤪',
-  '😂',
-  '🥰',
-  '🥳',
-  '🫣',
-  '🤨',
-  '🤯',
-  '🥴',
-  '👀',
-  '👌',
-  '🫶',
-  '🌭',
-  '☕',
-  '🙌',
-  '💪',
-  '🥶',
-  '🫡',
-  '🤝',
-  '💅',
-  '🫠'
+  '100m Sprint',
+  'Marathon',
+  'Diving',
+  'Synchronised Swimming',
+  'Javelin',
+  'Long Jump',
+  'High Jump',
+  'Curling',
+  'Discus',
+  'Bobsleigh',
+  'Pole Vault',
+  'Gymnastics',
+  'Rowing',
+  'Cycling Track',
+  'Swimming'
 ];
 
 interface Vote {
   name: string;
   class: string;
-  choices: string[]; // Array of 3 favourite emojis
+  choices: string[]; // Array of 3 favourite sports
   timestamp: number;
 }
 
@@ -293,7 +288,7 @@ export function VotingPage({
   const isDuplicateVote = selectedClass && name && hasVoted(name, selectedClass) && !editingVoteId;
 
   return (
-    <div className="min-h-screen bg-[#f1f2f6] px-4 py-12">
+    <div className={`min-h-screen bg-[#f1f2f6] px-4 py-12 ${showKeyboard ? 'pb-80' : ''}`}>
       {/* Celebration Overlay */}
       <AnimatePresence>
         {showCelebration && (
@@ -334,7 +329,7 @@ export function VotingPage({
                     repeatType: "reverse"
                   }}
                 >
-                  😀
+                  🏅
                 </motion.div>
                 <motion.h2
                   className="text-5xl font-bold text-[#4a4a5e] mb-4"
@@ -403,7 +398,7 @@ export function VotingPage({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h3 className="mb-6 text-xl text-[#5a5a6e]">Most Popular Emojis</h3>
+            <h3 className="mb-6 text-xl text-[#5a5a6e]">Most Popular Sports</h3>
             <div className="space-y-4">
               {getItemVotes().slice(0, 10).map(({ item, count }, index) => {
                 const maxCount = getItemVotes()[0].count;
@@ -662,7 +657,7 @@ export function VotingPage({
             </motion.div>
           )}
 
-          {/* Step 3: Sunday Dinner Item Selection */}
+          {/* Step 3: Olympic Sport Selection */}
           {selectedClass && name && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -670,7 +665,7 @@ export function VotingPage({
               exit={{ opacity: 0, height: 0 }}
             >
               <h3 className="mb-4 text-center text-lg text-[#5a5a6e]">
-                Choose Your Top 3 Favourite Emojis
+                Choose Your Top 3 Favourite Olympic Sports
               </h3>
               <p className="mb-6 text-center text-sm text-[#8a8a9e]">
                 Selected: {selectedItems.length}/3
@@ -739,7 +734,7 @@ export function VotingPage({
                         </>
                       )}
                       
-                      <div className={`relative z-10 text-center text-4xl transition-all duration-300 ${
+                      <div className={`relative z-10 text-center text-base transition-all duration-300 ${
                         isSelected ? 'font-medium' : ''
                       }`}>
                         {item}
@@ -756,7 +751,7 @@ export function VotingPage({
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <p className="text-sm text-[#6a6a7e]">
-                    😀 Your choices: <span className="font-medium text-[#4a4a5e]">{selectedItems.join(', ')}</span>
+                    🏅 Your choices: <span className="font-medium text-[#4a4a5e]">{selectedItems.join(', ')}</span>
                   </p>
                   <p className="mt-2 text-xs text-[#8a8a9e]">Your vote will be submitted automatically!</p>
                 </motion.div>
@@ -768,6 +763,7 @@ export function VotingPage({
 
       {showKeyboard && (
         <OnScreenKeyboard 
+          value={name}
           onKeyPress={(key) => setName(prev => prev + key)}
           onBackspace={() => setName(prev => prev.slice(0, -1))}
           onSpace={() => setName(prev => prev + ' ')}

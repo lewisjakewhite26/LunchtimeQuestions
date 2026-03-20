@@ -5,27 +5,27 @@ import { ArrowLeft, Users, TrendingUp, Award } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 const SUNDAY_DINNER_ITEMS = [
-  'Roast Beef',
-  'Roast Chicken',
-  'Roast Lamb',
-  'Roast Pork',
-  'Yorkshire Pudding',
-  'Roast Potatoes',
-  'Mashed Potatoes',
-  'Stuffing',
-  'Gravy',
-  'Peas',
-  'Carrots',
-  'Broccoli',
-  'Cauliflower',
-  'Brussels Sprouts',
-  'Parsnips'
+  '100m Sprint',
+  'Marathon',
+  'Diving',
+  'Synchronised Swimming',
+  'Javelin',
+  'Long Jump',
+  'High Jump',
+  'Curling',
+  'Discus',
+  'Bobsleigh',
+  'Pole Vault',
+  'Gymnastics',
+  'Rowing',
+  'Cycling Track',
+  'Swimming'
 ];
 
 interface Vote {
   name: string;
   class: string;
-  choices: string[]; // Array of 3 favourite emojis
+  choices: string[]; // Array of 3 favourite sports
   timestamp: number;
 }
 
@@ -46,21 +46,21 @@ export default function AnalyticsPage() {
     }
   }, []);
 
-  const getToppingResults = () => {
-    const toppingCounts: Record<string, number> = {};
-    SUNDAY_DINNER_ITEMS.forEach(topping => {
-      toppingCounts[topping] = 0;
+  const getSportResults = () => {
+    const sportCounts: Record<string, number> = {};
+    SUNDAY_DINNER_ITEMS.forEach(sport => {
+      sportCounts[sport] = 0;
     });
     
     votes.forEach(vote => {
-      vote.choices.forEach(topping => {
-        if (toppingCounts[topping] !== undefined) {
-          toppingCounts[topping]++;
+      vote.choices.forEach(sport => {
+        if (sportCounts[sport] !== undefined) {
+          sportCounts[sport]++;
         }
       });
     });
 
-    return Object.entries(toppingCounts)
+    return Object.entries(sportCounts)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
   };
@@ -73,14 +73,14 @@ export default function AnalyticsPage() {
     return Object.entries(breakdown).map(([name, value]) => ({ name, value }));
   };
 
-  const getTopTopping = () => {
-    const results = getToppingResults();
+  const getTopSport = () => {
+    const results = getSportResults();
     return results.length > 0 ? results[0] : null;
   };
 
-  const toppingResults = getToppingResults();
+  const sportResults = getSportResults();
   const classBreakdown = getClassBreakdown();
-  const topTopping = getTopTopping();
+  const topSport = getTopSport();
   const totalVotes = votes.length;
 
   if (totalVotes === 0) {
@@ -101,7 +101,7 @@ export default function AnalyticsPage() {
           </motion.button>
 
           <div className="rounded-3xl p-12 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)] text-center">
-            <p className="text-2xl text-[#6a6a7e]">No votes yet! 😀</p>
+            <p className="text-2xl text-[#6a6a7e]">No votes yet! 🏅</p>
             <p className="mt-4 text-[#8a8a9e]">Start voting to see analytics</p>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function AnalyticsPage() {
             <span className="text-[#5a5a6e]">Back to Voting</span>
           </motion.button>
 
-          <h1 className="text-3xl text-[#4a4a5e]">😀 Emoji Analytics 📊</h1>
+          <h1 className="text-3xl text-[#4a4a5e]">Olympic Sports Analytics 📊</h1>
         </div>
 
         {/* Key Stats */}
@@ -177,23 +177,23 @@ export default function AnalyticsPage() {
                 <Award className="h-6 w-6 text-[#4a4a5e]" />
               </div>
               <div>
-                <p className="text-sm text-[#8a8a9e]">Most Popular</p>
-                <p className="text-xl font-bold text-[#4a4a5e]">{topTopping ? topTopping.name : 'N/A'}</p>
+                <p className="text-sm text-[#8a8a9e]">Most Popular Sport</p>
+                <p className="text-xl font-bold text-[#4a4a5e]">{topSport ? topSport.name : 'N/A'}</p>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Top Pizza Toppings Bar Chart */}
+        {/* Top Sports Bar Chart */}
         <motion.div
           className="mb-8 rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="mb-6 text-2xl text-[#4a4a5e]">Emoji Results</h2>
+          <h2 className="mb-6 text-2xl text-[#4a4a5e]">Olympic Sport Results</h2>
           <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={toppingResults}>
+            <BarChart data={sportResults}>
               <CartesianGrid strokeDasharray="3 3" stroke="#d0d0d8" opacity={0.3} />
               <XAxis 
                 dataKey="name" 
@@ -213,7 +213,7 @@ export default function AnalyticsPage() {
                 }}
               />
               <Bar dataKey="value" radius={[12, 12, 0, 0]}>
-                {toppingResults.map((entry, index) => (
+                {sportResults.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={PASTEL_COLORS[index % PASTEL_COLORS.length]} />
                 ))}
               </Bar>
@@ -258,22 +258,22 @@ export default function AnalyticsPage() {
             </ResponsiveContainer>
           </motion.div>
 
-          {/* Top 10 Toppings List */}
+          {/* Top 10 Sports List */}
           <motion.div
             className="rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <h2 className="mb-6 text-2xl text-[#4a4a5e]">Top 10 Emojis</h2>
+            <h2 className="mb-6 text-2xl text-[#4a4a5e]">Top 10 Olympic Sports</h2>
             <div className="space-y-4">
-              {toppingResults.slice(0, 10).map((topping, index) => {
-                const maxVotes = toppingResults[0]?.value || 1;
-                const percentage = (topping.value / maxVotes) * 100;
+              {sportResults.slice(0, 10).map((sport, index) => {
+                const maxVotes = sportResults[0]?.value || 1;
+                const percentage = (sport.value / maxVotes) * 100;
                 
                 return (
                   <motion.div
-                    key={topping.name}
+                    key={sport.name}
                     className="flex items-center gap-4"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -286,8 +286,8 @@ export default function AnalyticsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="mb-1 flex justify-between">
-                        <span className="font-medium text-[#4a4a5e]">{topping.name}</span>
-                        <span className="text-sm text-[#6a6a7e]">{topping.value} votes</span>
+                        <span className="font-medium text-[#4a4a5e]">{sport.name}</span>
+                        <span className="text-sm text-[#6a6a7e]">{sport.value} votes</span>
                       </div>
                       <div className="h-2 rounded-full bg-[#e8e8f0] overflow-hidden">
                         <motion.div

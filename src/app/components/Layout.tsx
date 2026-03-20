@@ -202,9 +202,9 @@ export default function Layout({ children }: LayoutProps) {
         />
       </div>
 
-      {/* Floating Emojis */}
+      {/* Floating Olympic Icons */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Emoji 1 - 🤪 */}
+        {/* Icon 1 - 🏅 */}
         <motion.div
           className="absolute text-6xl opacity-30"
           style={{ left: '10%', bottom: '-100px' }}
@@ -219,10 +219,10 @@ export default function Layout({ children }: LayoutProps) {
             ease: 'linear',
           }}
         >
-          🤪
+          🏅
         </motion.div>
 
-        {/* Emoji 2 - 😂 */}
+        {/* Icon 2 - 🥇 */}
         <motion.div
           className="absolute text-5xl opacity-25"
           style={{ left: '25%', bottom: '-100px' }}
@@ -238,10 +238,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 2,
           }}
         >
-          😂
+          🥇
         </motion.div>
 
-        {/* Emoji 3 - 🥰 */}
+        {/* Icon 3 - 🥈 */}
         <motion.div
           className="absolute text-7xl opacity-28"
           style={{ left: '45%', bottom: '-100px' }}
@@ -257,10 +257,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 5,
           }}
         >
-          🥰
+          🥈
         </motion.div>
 
-        {/* Emoji 4 - 🥳 */}
+        {/* Icon 4 - 🥉 */}
         <motion.div
           className="absolute text-5xl opacity-26"
           style={{ left: '60%', bottom: '-100px' }}
@@ -276,10 +276,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 7,
           }}
         >
-          🥳
+          🥉
         </motion.div>
 
-        {/* Emoji 5 - 🫣 */}
+        {/* Icon 5 - 🏃 */}
         <motion.div
           className="absolute text-6xl opacity-24"
           style={{ left: '75%', bottom: '-100px' }}
@@ -295,10 +295,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 3,
           }}
         >
-          🫣
+          🏃
         </motion.div>
 
-        {/* Emoji 6 - 🤨 */}
+        {/* Icon 6 - 🏊 */}
         <motion.div
           className="absolute text-4xl opacity-27"
           style={{ left: '85%', bottom: '-100px' }}
@@ -314,10 +314,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 1,
           }}
         >
-          🤨
+          🏊
         </motion.div>
 
-        {/* Emoji 7 - 🤯 */}
+        {/* Icon 7 - 🚴 */}
         <motion.div
           className="absolute text-5xl opacity-25"
           style={{ left: '5%', bottom: '-100px' }}
@@ -333,10 +333,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 8,
           }}
         >
-          🤯
+          🚴
         </motion.div>
 
-        {/* Emoji 8 - 🥴 */}
+        {/* Icon 8 - 🤸 */}
         <motion.div
           className="absolute text-6xl opacity-29"
           style={{ left: '35%', bottom: '-100px' }}
@@ -352,10 +352,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 4,
           }}
         >
-          🥴
+          🤸
         </motion.div>
 
-        {/* Emoji 9 - 👀 */}
+        {/* Icon 9 - ⛷️ */}
         <motion.div
           className="absolute text-5xl opacity-26"
           style={{ left: '55%', bottom: '-100px' }}
@@ -371,10 +371,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 6,
           }}
         >
-          👀
+          ⛷️
         </motion.div>
 
-        {/* Emoji 10 - 👌 */}
+        {/* Icon 10 - 🧊 */}
         <motion.div
           className="absolute text-6xl opacity-28"
           style={{ left: '70%', bottom: '-100px' }}
@@ -390,10 +390,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 9,
           }}
         >
-          👌
+          🧊
         </motion.div>
 
-        {/* Emoji 11 - 🫶 */}
+        {/* Icon 11 - 🥌 */}
         <motion.div
           className="absolute text-5xl opacity-27"
           style={{ left: '15%', bottom: '-100px' }}
@@ -409,10 +409,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 2.5,
           }}
         >
-          🫶
+          🥌
         </motion.div>
 
-        {/* Emoji 12 - 🌭 */}
+        {/* Icon 12 - 🤾 */}
         <motion.div
           className="absolute text-6xl opacity-25"
           style={{ left: '40%', bottom: '-100px' }}
@@ -428,10 +428,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 7.5,
           }}
         >
-          🌭
+          🤾
         </motion.div>
 
-        {/* Emoji 13 - ☕ */}
+        {/* Icon 13 - 🏋️ */}
         <motion.div
           className="absolute text-5xl opacity-24"
           style={{ left: '65%', bottom: '-100px' }}
@@ -447,10 +447,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 4.5,
           }}
         >
-          ☕
+          🏋️
         </motion.div>
 
-        {/* Emoji 14 - 🙌 */}
+        {/* Icon 14 - 🛶 */}
         <motion.div
           className="absolute text-6xl opacity-26"
           style={{ left: '80%', bottom: '-100px' }}
@@ -466,10 +466,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 5.5,
           }}
         >
-          🙌
+          🛶
         </motion.div>
 
-        {/* Emoji 15 - 💪 */}
+        {/* Icon 15 - 🎯 */}
         <motion.div
           className="absolute text-5xl opacity-28"
           style={{ left: '20%', bottom: '-100px' }}
@@ -485,10 +485,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 3.5,
           }}
         >
-          💪
+          🎯
         </motion.div>
 
-        {/* Emoji 16 - 🥶 */}
+        {/* Icon 16 - ⚽ */}
         <motion.div
           className="absolute text-6xl opacity-27"
           style={{ left: '50%', bottom: '-100px' }}
@@ -504,10 +504,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 6.5,
           }}
         >
-          🥶
+          ⚽
         </motion.div>
 
-        {/* Emoji 17 - 🫡 */}
+        {/* Icon 17 - 🏐 */}
         <motion.div
           className="absolute text-5xl opacity-25"
           style={{ left: '30%', bottom: '-100px' }}
@@ -523,10 +523,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 8.5,
           }}
         >
-          🫡
+          🏐
         </motion.div>
 
-        {/* Emoji 18 - 🤝 */}
+        {/* Icon 18 - 🏸 */}
         <motion.div
           className="absolute text-6xl opacity-29"
           style={{ left: '90%', bottom: '-100px' }}
@@ -542,10 +542,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 1.5,
           }}
         >
-          🤝
+          🏸
         </motion.div>
 
-        {/* Emoji 19 - 💅 */}
+        {/* Icon 19 - 🏓 */}
         <motion.div
           className="absolute text-5xl opacity-26"
           style={{ left: '12%', bottom: '-100px' }}
@@ -561,10 +561,10 @@ export default function Layout({ children }: LayoutProps) {
             delay: 5,
           }}
         >
-          💅
+          🏓
         </motion.div>
 
-        {/* Emoji 20 - 🫠 */}
+        {/* Icon 20 - 🥊 */}
         <motion.div
           className="absolute text-6xl opacity-28"
           style={{ left: '58%', bottom: '-100px' }}
@@ -580,7 +580,7 @@ export default function Layout({ children }: LayoutProps) {
             delay: 7,
           }}
         >
-          🫠
+          🥊
         </motion.div>
       </div>
 
@@ -611,7 +611,7 @@ export default function Layout({ children }: LayoutProps) {
               ease: "easeInOut"
             }}
           >
-            Emoji Vote
+            Olympic Sport Vote
           </motion.h1>
         </div>
 

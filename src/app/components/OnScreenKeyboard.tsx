@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Delete, X } from 'lucide-react';
 
 interface OnScreenKeyboardProps {
+  value: string;
   onKeyPress: (key: string) => void;
   onBackspace: () => void;
   onSpace: () => void;
@@ -9,90 +11,111 @@ interface OnScreenKeyboardProps {
 }
 
 const KEYBOARD_LAYOUT = [
-  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 ];
 
-export default function OnScreenKeyboard({ onKeyPress, onBackspace, onSpace, onClose }: OnScreenKeyboardProps) {
+export default function OnScreenKeyboard({ value, onKeyPress, onBackspace, onSpace, onClose }: OnScreenKeyboardProps) {
+  const [isShiftEnabled, setIsShiftEnabled] = useState(false);
+
+  const shouldAutoCapitalize = (text: string) => {
+    if (!text.trim()) return true;
+    return /[.!?]\s*$/.test(text);
+  };
+
+  const handleLetterPress = (key: string) => {
+    const useUppercase = isShiftEnabled || shouldAutoCapitalize(value);
+    onKeyPress(useUppercase ? key.toUpperCase() : key);
+    if (isShiftEnabled) {
+      setIsShiftEnabled(false);
+    }
+  };
+
+  const isCapsActive = isShiftEnabled || shouldAutoCapitalize(value);
+
   return (
     <motion.div
-      className="fixed bottom-0 left-0 right-0 z-50 bg-[#f1f2f6] p-4 pb-6 shadow-[0_-8px_24px_rgba(163,177,198,0.3)]"
-      initial={{ y: 100, opacity: 0 }}
+      className="fixed bottom-1 left-1/2 z-50 w-[min(96vw,860px)] -translate-x-1/2 rounded-3xl border border-white/35 bg-white/20 p-3 pb-4 shadow-[0_12px_40px_rgba(31,41,55,0.25)] backdrop-blur-xl"
+      initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 100, opacity: 0 }}
+      exit={{ y: 50, opacity: 0 }}
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
     >
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto">
         {/* Close Button */}
-        <div className="mb-3 flex justify-end">
+        <div className="mb-2 flex justify-end">
           <motion.button
             onMouseDown={(e) => {
               e.preventDefault();
               onClose();
             }}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f1f2f6] shadow-[3px_3px_8px_rgba(163,177,198,0.3),-3px_-3px_8px_rgba(255,255,255,0.8)] transition-all"
+            className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/40 bg-white/30 text-[#4a4a5e] shadow-[0_4px_16px_rgba(31,41,55,0.15)] transition-all"
             whileHover={{
               scale: 1.05,
-              boxShadow: '4px 4px 10px rgba(163,177,198,0.35),-4px -4px 10px rgba(255,255,255,0.85)'
+              boxShadow: '0 8px 18px rgba(31,41,55,0.2)'
             }}
             whileTap={{
               scale: 0.95,
-              boxShadow: 'inset 3px 3px 6px rgba(163,177,198,0.3), inset -3px -3px 6px rgba(255,255,255,0.8)'
+              boxShadow: 'inset 0 2px 8px rgba(31,41,55,0.2)'
             }}
           >
-            <X className="h-5 w-5 text-[#6a6a7e]" />
+            <X className="h-4 w-4" />
           </motion.button>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {KEYBOARD_LAYOUT.map((row, rowIndex) => (
             <div
               key={rowIndex}
               className="flex justify-center gap-2"
-              style={{ paddingLeft: rowIndex === 1 ? '2rem' : rowIndex === 2 ? '4rem' : '0' }}
+              style={{ paddingLeft: rowIndex === 1 ? '1rem' : rowIndex === 2 ? '2rem' : '0' }}
             >
               {row.map((key) => (
                 <motion.button
                   key={key}
                   onMouseDown={(e) => {
                     e.preventDefault();
-                    onKeyPress(key);
+                    handleLetterPress(key);
                   }}
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f1f2f6] text-lg font-medium text-[#4a4a5e] shadow-[4px_4px_10px_rgba(163,177,198,0.3),-4px_-4px_10px_rgba(255,255,255,0.8)] transition-all"
+                  className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/40 bg-white/30 text-base font-medium text-[#3f4050] shadow-[0_4px_14px_rgba(31,41,55,0.14)] transition-all"
                   whileHover={{
                     scale: 1.05,
-                    boxShadow: '5px 5px 12px rgba(163,177,198,0.35),-5px -5px 12px rgba(255,255,255,0.85)'
+                    boxShadow: '0 8px 18px rgba(31,41,55,0.2)'
                   }}
                   whileTap={{
                     scale: 0.95,
-                    boxShadow: 'inset 3px 3px 6px rgba(163,177,198,0.3), inset -3px -3px 6px rgba(255,255,255,0.8)'
+                    boxShadow: 'inset 0 2px 8px rgba(31,41,55,0.2)'
                   }}
                 >
-                  {key}
+                  {isCapsActive ? key.toUpperCase() : key}
                 </motion.button>
               ))}
             </div>
           ))}
 
-          {/* Bottom Row with Space and Backspace */}
-          <div className="flex justify-center gap-2 pt-2">
+          {/* Bottom Row with Shift, Space and Backspace */}
+          <div className="flex justify-center gap-2 pt-1">
             <motion.button
               onMouseDown={(e) => {
                 e.preventDefault();
-                onBackspace();
+                setIsShiftEnabled((prev) => !prev);
               }}
-              className="flex h-14 w-20 items-center justify-center rounded-2xl bg-[#f1f2f6] shadow-[4px_4px_10px_rgba(163,177,198,0.3),-4px_-4px_10px_rgba(255,255,255,0.8)] transition-all"
+              className={`flex h-11 w-20 items-center justify-center rounded-2xl border text-sm font-medium shadow-[0_4px_14px_rgba(31,41,55,0.14)] transition-all ${
+                isShiftEnabled
+                  ? 'border-[#9fbdf8] bg-[#dce8ff]/70 text-[#334155]'
+                  : 'border-white/40 bg-white/30 text-[#3f4050]'
+              }`}
               whileHover={{
-                scale: 1.05,
-                boxShadow: '5px 5px 12px rgba(163,177,198,0.35),-5px -5px 12px rgba(255,255,255,0.85)'
+                scale: 1.02,
+                boxShadow: '0 8px 18px rgba(31,41,55,0.2)'
               }}
               whileTap={{
-                scale: 0.95,
-                boxShadow: 'inset 3px 3px 6px rgba(163,177,198,0.3), inset -3px -3px 6px rgba(255,255,255,0.8)'
+                scale: 0.98,
+                boxShadow: 'inset 0 2px 8px rgba(31,41,55,0.2)'
               }}
             >
-              <Delete className="h-6 w-6 text-[#6a6a7e]" />
+              {isCapsActive ? 'SHIFT' : 'shift'}
             </motion.button>
 
             <motion.button
@@ -100,17 +123,17 @@ export default function OnScreenKeyboard({ onKeyPress, onBackspace, onSpace, onC
                 e.preventDefault();
                 onSpace();
               }}
-              className="flex h-14 flex-1 max-w-md items-center justify-center rounded-2xl bg-[#f1f2f6] text-lg font-medium text-[#4a4a5e] shadow-[4px_4px_10px_rgba(163,177,198,0.3),-4px_-4px_10px_rgba(255,255,255,0.8)] transition-all"
+              className="flex h-11 flex-1 max-w-sm items-center justify-center rounded-2xl border border-white/40 bg-white/30 text-sm font-medium text-[#3f4050] shadow-[0_4px_14px_rgba(31,41,55,0.14)] transition-all"
               whileHover={{
                 scale: 1.02,
-                boxShadow: '5px 5px 12px rgba(163,177,198,0.35),-5px -5px 12px rgba(255,255,255,0.85)'
+                boxShadow: '0 8px 18px rgba(31,41,55,0.2)'
               }}
               whileTap={{
                 scale: 0.98,
-                boxShadow: 'inset 3px 3px 6px rgba(163,177,198,0.3), inset -3px -3px 6px rgba(255,255,255,0.8)'
+                boxShadow: 'inset 0 2px 8px rgba(31,41,55,0.2)'
               }}
             >
-              SPACE
+              space
             </motion.button>
 
             <motion.button
@@ -118,17 +141,17 @@ export default function OnScreenKeyboard({ onKeyPress, onBackspace, onSpace, onC
                 e.preventDefault();
                 onBackspace();
               }}
-              className="flex h-14 w-20 items-center justify-center rounded-2xl bg-[#f1f2f6] shadow-[4px_4px_10px_rgba(163,177,198,0.3),-4px_-4px_10px_rgba(255,255,255,0.8)] transition-all"
+              className="flex h-11 w-14 items-center justify-center rounded-2xl border border-white/40 bg-white/30 shadow-[0_4px_14px_rgba(31,41,55,0.14)] transition-all"
               whileHover={{
                 scale: 1.05,
-                boxShadow: '5px 5px 12px rgba(163,177,198,0.35),-5px -5px 12px rgba(255,255,255,0.85)'
+                boxShadow: '0 8px 18px rgba(31,41,55,0.2)'
               }}
               whileTap={{
                 scale: 0.95,
-                boxShadow: 'inset 3px 3px 6px rgba(163,177,198,0.3), inset -3px -3px 6px rgba(255,255,255,0.8)'
+                boxShadow: 'inset 0 2px 8px rgba(31,41,55,0.2)'
               }}
             >
-              <Delete className="h-6 w-6 text-[#6a6a7e]" />
+              <Delete className="h-5 w-5 text-[#4a4a5e]" />
             </motion.button>
           </div>
         </div>
