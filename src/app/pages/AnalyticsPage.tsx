@@ -1,31 +1,37 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend } from 'recharts';
-import { ArrowLeft, Users, TrendingUp, Award } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+import { ArrowLeft, Users, Briefcase, Award } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-const SUNDAY_DINNER_ITEMS = [
-  '100m Sprint',
-  'Marathon',
-  'Diving',
-  'Synchronised Swimming',
-  'Javelin',
-  'Long Jump',
-  'High Jump',
-  'Curling',
-  'Discus',
-  'Bobsleigh',
-  'Pole Vault',
-  'Gymnastics',
-  'Rowing',
-  'Cycling Track',
-  'Swimming'
+// Realistic UK Dream Jobs List
+const DREAM_JOBS = [
+  'Veterinary Surgeon',
+  'Doctor',
+  'Primary School Teacher',
+  'Secondary School Teacher',
+  'Nurse',
+  'Paramedic',
+  'Firefighter',
+  'Police Officer',
+  'Builder / Bricklayer',
+  'Electrician',
+  'Plumber',
+  'Architect',
+  'Civil Engineer',
+  'Software Developer',
+  'Graphic Designer',
+  'Chef',
+  'Mechanic',
+  'Scientist',
+  'Lawyer',
+  'Pilot'
 ];
 
 interface Vote {
   name: string;
   class: string;
-  choices: string[]; // Array of 3 favourite sports
+  choices: string[]; 
   timestamp: number;
 }
 
@@ -36,7 +42,8 @@ export default function AnalyticsPage() {
   const [votes, setVotes] = useState<Vote[]>([]);
 
   useEffect(() => {
-    const storedVotes = localStorage.getItem('worldBookDayVotes');
+    // Ensure this key matches what your voting page uses!
+    const storedVotes = localStorage.getItem('dreamJobsVotes');
     if (storedVotes) {
       try {
         setVotes(JSON.parse(storedVotes));
@@ -46,21 +53,21 @@ export default function AnalyticsPage() {
     }
   }, []);
 
-  const getSportResults = () => {
-    const sportCounts: Record<string, number> = {};
-    SUNDAY_DINNER_ITEMS.forEach(sport => {
-      sportCounts[sport] = 0;
+  const getJobResults = () => {
+    const counts: Record<string, number> = {};
+    DREAM_JOBS.forEach(job => {
+      counts[job] = 0;
     });
     
     votes.forEach(vote => {
-      vote.choices.forEach(sport => {
-        if (sportCounts[sport] !== undefined) {
-          sportCounts[sport]++;
+      vote.choices.forEach(choice => {
+        if (counts[choice] !== undefined) {
+          counts[choice]++;
         }
       });
     });
 
-    return Object.entries(sportCounts)
+    return Object.entries(counts)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
   };
@@ -73,14 +80,14 @@ export default function AnalyticsPage() {
     return Object.entries(breakdown).map(([name, value]) => ({ name, value }));
   };
 
-  const getTopSport = () => {
-    const results = getSportResults();
-    return results.length > 0 ? results[0] : null;
+  const getTopJob = () => {
+    const results = getJobResults();
+    return results.length > 0 && results[0].value > 0 ? results[0] : null;
   };
 
-  const sportResults = getSportResults();
+  const jobResults = getJobResults();
   const classBreakdown = getClassBreakdown();
-  const topSport = getTopSport();
+  const topJob = getTopJob();
   const totalVotes = votes.length;
 
   if (totalVotes === 0) {
@@ -89,20 +96,16 @@ export default function AnalyticsPage() {
         <div className="mx-auto max-w-6xl">
           <motion.button
             onClick={() => navigate('/')}
-            className="mb-8 flex items-center gap-2 rounded-2xl px-6 py-3 shadow-[3px_3px_8px_rgba(163,177,198,0.25),-3px_-3px_8px_rgba(255,255,255,0.7)] transition-all"
-            whileHover={{ 
-              scale: 1.05,
-              boxShadow: '4px 4px 12px rgba(163,177,198,0.3),-4px -4px 12px rgba(255,255,255,0.8)'
-            }}
+            className="mb-8 flex items-center gap-2 rounded-2xl px-6 py-3 shadow-[3px_3px_8px_rgba(163,177,198,0.25),-3px_-3px_8px_rgba(255,255,255,0.7)]"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="h-5 w-5 text-[#6a6a7e]" />
             <span className="text-[#5a5a6e]">Back to Voting</span>
           </motion.button>
-
           <div className="rounded-3xl p-12 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)] text-center">
-            <p className="text-2xl text-[#6a6a7e]">No votes yet! 🏅</p>
-            <p className="mt-4 text-[#8a8a9e]">Start voting to see analytics</p>
+            <p className="text-2xl text-[#6a6a7e]">No career choices submitted yet! 🏗️</p>
+            <p className="mt-4 text-[#8a8a9e]">Pick your dream jobs to see the data.</p>
           </div>
         </div>
       </div>
@@ -110,201 +113,72 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f2f6] px-4 py-12">
+    <div className="min-h-screen bg-[#f1f2f6] px-4 py-12 font-sans">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <motion.button
             onClick={() => navigate('/')}
-            className="flex items-center gap-2 rounded-2xl px-6 py-3 shadow-[3px_3px_8px_rgba(163,177,198,0.25),-3px_-3px_8px_rgba(255,255,255,0.7)] transition-all"
-            whileHover={{ 
-              scale: 1.05,
-              boxShadow: '4px 4px 12px rgba(163,177,198,0.3),-4px -4px 12px rgba(255,255,255,0.8)'
-            }}
-            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 rounded-2xl px-6 py-3 shadow-[3px_3px_8px_rgba(163,177,198,0.25),-3px_-3px_8px_rgba(255,255,255,0.7)] bg-[#f1f2f6]"
+            whileHover={{ scale: 1.05 }}
           >
             <ArrowLeft className="h-5 w-5 text-[#6a6a7e]" />
             <span className="text-[#5a5a6e]">Back to Voting</span>
           </motion.button>
-
-          <h1 className="text-3xl text-[#4a4a5e]">Olympic Sports Analytics 📊</h1>
+          <h1 className="text-3xl font-bold text-[#4a4a5e]">Dream Jobs Analytics 📊</h1>
         </div>
 
-        {/* Key Stats */}
+        {/* Stats */}
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-          <motion.div
-            className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <div className="mb-3 flex items-center gap-3">
-              <div className="rounded-2xl bg-[#a8d0ff] p-3 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.2),inset_-2px_-2px_4px_rgba(255,255,255,0.4)]">
-                <Users className="h-6 w-6 text-[#4a4a5e]" />
-              </div>
+          <div className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-[#a8d0ff] p-3"><Users className="h-6 w-6 text-[#4a4a5e]" /></div>
               <div>
-                <p className="text-sm text-[#8a8a9e]">Total Voters</p>
+                <p className="text-sm text-[#8a8a9e]">Total Students</p>
                 <p className="text-3xl font-bold text-[#4a4a5e]">{totalVotes}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="mb-3 flex items-center gap-3">
-              <div className="rounded-2xl bg-[#ffb8a0] p-3 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.2),inset_-2px_-2px_4px_rgba(255,255,255,0.4)]">
-                <TrendingUp className="h-6 w-6 text-[#4a4a5e]" />
-              </div>
+          <div className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-[#ffb8a0] p-3"><Briefcase className="h-6 w-6 text-[#4a4a5e]" /></div>
               <div>
-                <p className="text-sm text-[#8a8a9e]">Total Votes Cast</p>
+                <p className="text-sm text-[#8a8a9e]">Career Interests</p>
                 <p className="text-3xl font-bold text-[#4a4a5e]">{totalVotes * 3}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="mb-3 flex items-center gap-3">
-              <div className="rounded-2xl bg-[#d0e8a8] p-3 shadow-[inset_2px_2px_4px_rgba(163,177,198,0.2),inset_-2px_-2px_4px_rgba(255,255,255,0.4)]">
-                <Award className="h-6 w-6 text-[#4a4a5e]" />
-              </div>
-              <div>
-                <p className="text-sm text-[#8a8a9e]">Most Popular Sport</p>
-                <p className="text-xl font-bold text-[#4a4a5e]">{topSport ? topSport.name : 'N/A'}</p>
+          <div className="rounded-3xl p-6 shadow-[6px_6px_12px_rgba(163,177,198,0.2),-6px_-6px_12px_rgba(255,255,255,0.7)]">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-[#d0e8a8] p-3"><Award className="h-6 w-6 text-[#4a4a5e]" /></div>
+              <div className="overflow-hidden">
+                <p className="text-sm text-[#8a8a9e]">Top Career Choice</p>
+                <p className="text-lg font-bold text-[#4a4a5e] truncate">{topJob ? topJob.name : 'Tied'}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Top Sports Bar Chart */}
-        <motion.div
-          className="mb-8 rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <h2 className="mb-6 text-2xl text-[#4a4a5e]">Olympic Sport Results</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={sportResults}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#d0d0d8" opacity={0.3} />
-              <XAxis 
-                dataKey="name" 
-                stroke="#8a8a9e" 
-                angle={-45}
-                textAnchor="end"
-                height={120}
-                style={{ fontSize: '12px' }}
-              />
-              <YAxis stroke="#8a8a9e" />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#f1f2f6',
-                  border: 'none',
-                  borderRadius: '12px',
-                  boxShadow: '4px 4px 8px rgba(163,177,198,0.2), -4px -4px 8px rgba(255,255,255,0.7)'
-                }}
-              />
-              <Bar dataKey="value" radius={[12, 12, 0, 0]}>
-                {sportResults.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={PASTEL_COLORS[index % PASTEL_COLORS.length]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </motion.div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Class Breakdown Pie Chart */}
-          <motion.div
-            className="rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <h2 className="mb-6 text-2xl text-[#4a4a5e]">Votes by Class</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={classBreakdown}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {classBreakdown.map((entry, index) => (
+        {/* Chart */}
+        <motion.div className="mb-8 rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]">
+          <h2 className="mb-6 text-2xl font-semibold text-[#4a4a5e]">Career Popularity</h2>
+          <div className="h-[500px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={jobResults.filter(j => j.value > 0)} layout="vertical">
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" width={180} style={{ fontSize: '12px', fill: '#6a6a7e' }} />
+                <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ borderRadius: '15px', border: 'none' }} />
+                <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={25}>
+                  {jobResults.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={PASTEL_COLORS[index % PASTEL_COLORS.length]} />
                   ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#f1f2f6',
-                    border: 'none',
-                    borderRadius: '12px',
-                    boxShadow: '4px 4px 8px rgba(163,177,198,0.2), -4px -4px 8px rgba(255,255,255,0.7)'
-                  }}
-                />
-              </PieChart>
+                </Bar>
+              </BarChart>
             </ResponsiveContainer>
-          </motion.div>
-
-          {/* Top 10 Sports List */}
-          <motion.div
-            className="rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <h2 className="mb-6 text-2xl text-[#4a4a5e]">Top 10 Olympic Sports</h2>
-            <div className="space-y-4">
-              {sportResults.slice(0, 10).map((sport, index) => {
-                const maxVotes = sportResults[0]?.value || 1;
-                const percentage = (sport.value / maxVotes) * 100;
-                
-                return (
-                  <motion.div
-                    key={sport.name}
-                    className="flex items-center gap-4"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + index * 0.05 }}
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl shadow-[3px_3px_6px_rgba(163,177,198,0.2),-3px_-3px_6px_rgba(255,255,255,0.6)]">
-                      <span className="font-bold text-[#4a4a5e]">
-                        {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
-                      </span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="mb-1 flex justify-between">
-                        <span className="font-medium text-[#4a4a5e]">{sport.name}</span>
-                        <span className="text-sm text-[#6a6a7e]">{sport.value} votes</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-[#e8e8f0] overflow-hidden">
-                        <motion.div
-                          className="h-full rounded-full"
-                          style={{ backgroundColor: PASTEL_COLORS[index % PASTEL_COLORS.length] }}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${percentage}%` }}
-                          transition={{ duration: 0.8, delay: 0.8 + index * 0.05 }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
