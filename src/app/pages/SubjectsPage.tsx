@@ -22,7 +22,7 @@ export default function SubjectsPage() {
   return (
     <VotingPage
       title="Favourite Animals"
-      description="Pick your top 3 animals. 1st gets 3 points, 2nd gets 2, and 3rd gets 1."
+      description="Pick your top 3 animals."
       animals={ANIMALS}
     />
   );
