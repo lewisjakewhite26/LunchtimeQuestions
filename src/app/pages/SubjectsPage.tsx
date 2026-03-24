@@ -10,7 +10,7 @@ const ANIMALS = [
   'Panda',
   'Horse',
   'Owl',
-  'Wolf',
+  'Badger',
   'Axolotl',
   'Capybara',
   'Tortoise',

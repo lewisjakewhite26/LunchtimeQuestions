@@ -14,7 +14,7 @@ interface Vote {
 
 const ANIMALS = [
   'Dolphin', 'Elephant', 'Lion', 'Tiger', 'Penguin', 'Giraffe', 'Panda', 'Horse',
-  'Owl', 'Wolf', 'Axolotl', 'Capybara', 'Tortoise', 'Koala', 'Octopus'
+  'Owl', 'Badger', 'Axolotl', 'Capybara', 'Tortoise', 'Koala', 'Octopus'
 ];
 
 const STORAGE_KEY = 'favouriteAnimalsVotes';
