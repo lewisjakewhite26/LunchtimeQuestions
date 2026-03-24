@@ -1,35 +1,29 @@
-﻿import { VotingPage } from '../components/VotingPage';
+import { VotingPage } from '../components/VotingPage';
 
-interface WouldYouRatherQuestion {
-  id: string;
-  optionA: string;
-  optionB: string;
-}
-
-const WOULD_YOU_RATHER_QUESTIONS: WouldYouRatherQuestion[] = [
-  { id: 'q1', optionA: 'Dolphin', optionB: 'Elephant' },
-  { id: 'q2', optionA: 'Elephant', optionB: 'Lion' },
-  { id: 'q3', optionA: 'Lion', optionB: 'Tiger' },
-  { id: 'q4', optionA: 'Tiger', optionB: 'Penguin' },
-  { id: 'q5', optionA: 'Penguin', optionB: 'Giraffe' },
-  { id: 'q6', optionA: 'Giraffe', optionB: 'Panda' },
-  { id: 'q7', optionA: 'Panda', optionB: 'Horse' },
-  { id: 'q8', optionA: 'Horse', optionB: 'Owl' },
-  { id: 'q9', optionA: 'Owl', optionB: 'Wolf' },
-  { id: 'q10', optionA: 'Wolf', optionB: 'Axolotl' },
-  { id: 'q11', optionA: 'Axolotl', optionB: 'Capybara' },
-  { id: 'q12', optionA: 'Capybara', optionB: 'Tortoise' },
-  { id: 'q13', optionA: 'Tortoise', optionB: 'Koala' },
-  { id: 'q14', optionA: 'Koala', optionB: 'Octopus' },
-  { id: 'q15', optionA: 'Octopus', optionB: 'Dolphin' }
+const ANIMALS = [
+  'Dolphin',
+  'Elephant',
+  'Lion',
+  'Tiger',
+  'Penguin',
+  'Giraffe',
+  'Panda',
+  'Horse',
+  'Owl',
+  'Wolf',
+  'Axolotl',
+  'Capybara',
+  'Tortoise',
+  'Koala',
+  'Octopus'
 ];
 
 export default function SubjectsPage() {
   return (
     <VotingPage
-      title="­ƒÉ¥ Favourite Animals ­ƒÉ¥"
-      description="Pick your favourite animal in each head-to-head matchup!"
-      questions={WOULD_YOU_RATHER_QUESTIONS}
+      title="Favourite Animals"
+      description="Pick your top 3 animals. 1st gets 3 points, 2nd gets 2, and 3rd gets 1."
+      animals={ANIMALS}
     />
   );
 }

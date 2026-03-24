@@ -1,4 +1,4 @@
-﻿import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { PawPrint, Maximize, Minimize, BarChart3 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
