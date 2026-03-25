@@ -1,29 +1,26 @@
 import { VotingPage } from '../components/VotingPage';
 
-const ANIMALS = [
-  'Dolphin',
-  'Elephant',
-  'Lion',
-  'Tiger',
-  'Penguin',
-  'Giraffe',
-  'Panda',
-  'Horse',
-  'Owl',
-  'Badger',
-  'Axolotl',
-  'Capybara',
-  'Tortoise',
-  'Koala',
-  'Octopus'
+const LESSONS = [
+  'English',
+  'Maths',
+  'Science',
+  'Geography',
+  'History',
+  'Computing',
+  'PE',
+  'RE',
+  'PSHE',
+  'DT',
+  'Art',
+  'Music'
 ];
 
 export default function SubjectsPage() {
   return (
     <VotingPage
-      title="Favourite Animals"
-      description="Pick your top 3 animals."
-      animals={ANIMALS}
+      title="Top School Lessons"
+      description="Pick your top 3 lessons."
+      animals={LESSONS}
     />
   );
 }
