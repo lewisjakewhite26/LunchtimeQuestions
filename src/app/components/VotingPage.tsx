@@ -45,8 +45,8 @@ interface VotingPageProps {
   animals: string[];
 }
 
-const STORAGE_KEY = 'favouriteAnimalsVotes';
-const LEGACY_STORAGE_KEY = 'worldBookDayVotes';
+const STORAGE_KEY = 'favouriteLessonsVotes';
+const LEGACY_STORAGE_KEY = 'favouriteAnimalsVotes';
 const POINTS_BY_RANK = [3, 2, 1];
 
 export function VotingPage({ title, description, animals }: VotingPageProps) {
@@ -87,33 +87,33 @@ export function VotingPage({ title, description, animals }: VotingPageProps) {
   const hasVoted = (voterName: string, voterClass: string) =>
     votes.some((v) => v.name.toLowerCase() === voterName.toLowerCase() && v.class === voterClass);
 
-  const topAnimals = useMemo(() => {
+  const topLessons = useMemo(() => {
     const totals: Record<string, number> = {};
-    animals.forEach((animal) => {
-      totals[animal] = 0;
+    animals.forEach((lesson) => {
+      totals[lesson] = 0;
     });
 
     votes.forEach((vote) => {
-      vote.picks.forEach((animal, index) => {
-        totals[animal] = (totals[animal] ?? 0) + (POINTS_BY_RANK[index] ?? 0);
+      vote.picks.forEach((lesson, index) => {
+        totals[lesson] = (totals[lesson] ?? 0) + (POINTS_BY_RANK[index] ?? 0);
       });
     });
 
     return Object.entries(totals)
-      .map(([animal, points]) => ({ animal, points }))
+      .map(([lesson, points]) => ({ lesson, points }))
       .sort((a, b) => b.points - a.points)
       .slice(0, 5);
   }, [animals, votes]);
 
-  const togglePick = (animal: string) => {
+  const togglePick = (lesson: string) => {
     setPicks((prev) => {
-      if (prev.includes(animal)) {
-        return prev.filter((item) => item !== animal);
+      if (prev.includes(lesson)) {
+        return prev.filter((item) => item !== lesson);
       }
       if (prev.length >= 3) {
         return prev;
       }
-      return [...prev, animal];
+      return [...prev, lesson];
     });
   };
 
@@ -219,12 +219,12 @@ export function VotingPage({ title, description, animals }: VotingPageProps) {
 
         {showStats && votes.length > 0 && (
           <div className="mb-12 rounded-3xl p-8 shadow-[8px_8px_16px_rgba(163,177,198,0.2),-8px_-8px_16px_rgba(255,255,255,0.7)]">
-            <h3 className="mb-6 text-xl text-[#5a5a6e]">Top Animals by Points</h3>
+            <h3 className="mb-6 text-xl text-[#5a5a6e]">Top Lessons by Points</h3>
             <div className="grid gap-4 md:grid-cols-2">
-              {topAnimals.map((item, index) => (
-                <div key={item.animal} className="rounded-2xl p-4 shadow-[3px_3px_6px_rgba(163,177,198,0.15),-3px_-3px_6px_rgba(255,255,255,0.5)]">
+              {topLessons.map((item, index) => (
+                <div key={item.lesson} className="rounded-2xl p-4 shadow-[3px_3px_6px_rgba(163,177,198,0.15),-3px_-3px_6px_rgba(255,255,255,0.5)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#4a4a5e]">{index + 1}. {item.animal}</span>
+                    <span className="text-[#4a4a5e]">{index + 1}. {item.lesson}</span>
                     <span className="font-medium text-[#5a5a6e]">{item.points} pts</span>
                   </div>
                 </div>
@@ -317,20 +317,20 @@ export function VotingPage({ title, description, animals }: VotingPageProps) {
 
           {selectedClass && name && (
             <div>
-              <h4 className="mb-4 text-center text-lg text-[#5a5a6e]">Choose your Top 3 Animals</h4>
+              <h4 className="mb-4 text-center text-lg text-[#5a5a6e]">Choose your Top 3 Lessons</h4>
               <p className="mb-6 text-center text-sm text-[#8a8a9e]">Tap to select in order: 1st = 3 pts, 2nd = 2 pts, 3rd = 1 pt</p>
 
               <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                {animals.map((animal) => {
-                  const rankIndex = picks.indexOf(animal);
+                {animals.map((lesson) => {
+                  const rankIndex = picks.indexOf(lesson);
                   const selected = rankIndex !== -1;
                   return (
                     <button
-                      key={animal}
-                      onClick={() => togglePick(animal)}
+                      key={lesson}
+                      onClick={() => togglePick(lesson)}
                       className={`relative rounded-2xl p-4 ${selected ? 'shadow-inner bg-[#eaf3ff]' : 'shadow'}`}
                     >
-                      <span className="text-[#4a4a5e]">{animal}</span>
+                      <span className="text-[#4a4a5e]">{lesson}</span>
                       {selected && (
                         <span className="absolute right-2 top-2 rounded-full bg-[#a8d0ff] px-2 py-0.5 text-xs text-[#4a4a5e]">
                           #{rankIndex + 1}
